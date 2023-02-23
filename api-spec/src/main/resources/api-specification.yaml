@@ -1,0 +1,407 @@
+openapi: 3.0.0
+
+info:
+  version: "1.0.0"
+  title: Api-Leo
+
+tags:
+  - name: "Employees"
+    description: "Provides endpoints to view and manage Employees"
+  - name: "Departments"
+    description: "Provides endpoints to view and manage Departments"
+
+servers:
+  - url: "http://127.0.0.1:8080/"
+    description: "Local development"
+
+paths:
+  /employees:
+    post:
+      operationId: "createEmployee"
+      description: "Creates the given employee."
+      tags:
+        - Employee
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+  /employees/{id}:
+    get:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      operationId: "getEmployeeById"
+      description: "Find an employee using its id."
+      tags:
+        - Employee
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    put:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      operationId: "updateEmployee"
+      description: "Update the given employee"
+      tags:
+        - Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeProperties'
+        description: "The employee to update."
+      responses:
+        200:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        404:
+          description: "Employee not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      operationId: "deleteEmployee"
+      description: "Delete the given employee"
+      tags:
+        - Employee
+      responses:
+        204:
+          description: "OK"
+        404:
+          description: "Employee not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /employees/all:
+    get:
+      operationId: "getAllEmployees"
+      description: "Get all employees order alphabetically by department."
+      tags:
+        - Employees
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+  /employees/paginationa:
+    get:
+      operationId: "listEmployees"
+      description: "Find employees with type A of pagination."
+      tags:
+        - "Employees"
+      parameters:
+        - in: "query"
+          name: "page"
+          description: "Page number you want to see when the data is fetched."
+          required: true
+          schema:
+            type: integer
+        - in: "query"
+          name: "quantity"
+          description: "Quantity of results per page."
+          required: true
+          schema:
+            type: integer
+        - in: "query"
+          name: "ordination"
+          description: "How to order the results: asc or desc."
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+  # TODO Search how to define the pagination B with pageable
+
+  /departments:
+    post:
+      operationId: "createDepartment"
+      description: "Creates the given department."
+      tags:
+        - Departments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentCreation'
+        description: "The department to create."
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+  /departments/{id}:
+    get:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      operationId: "getDepartmentById"
+      description: "Find a department using its id."
+      tags:
+        - Departments
+      responses:
+        200:
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+    put:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      operationId: "updateDepartment"
+      description: "Update the given department"
+      tags:
+        - Departments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentCreation'
+        description: "The department to update."
+      responses:
+        200:
+          description: "Updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+        404:
+          description: "Department not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      operationId: "deleteDepartment"
+      description: "Delete the given department"
+      tags:
+        - Departments
+      responses:
+        204:
+          description: "OK"
+        404:
+          description: "Department not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /departments/all:
+    get:
+      operationId: "getAllDepartments"
+      description: "Get all departments."
+      tags:
+        - Departments
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Department'
+
+components:
+  schemas:
+    EmployeeProperties:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Employee's name."
+          example: "Kanavilil Rajagopalan"
+          maxLength: 255
+        telephone:
+          type: string
+          description: "Telephone number."
+          example: "+55 (98) 9 9191-4444"
+          pattern: '^\+[1-9]{2} \([1-9]{2}\) 9 [1-9]{4}\-[0-9]{4}$'
+        department_id:
+          type: integer
+          description: "Department id"
+          example: "3"
+        profile_id:
+          maxLength: 20
+          nullable: false
+          type: integer
+          description: "Profile id"
+          example: "5"
+
+      required:
+        - name
+        - telephone
+
+    EmployeeCreation:
+      allOf:
+        - $ref: '#/components/schemas/EmployeeProperties'
+      properties:
+        cpf:
+          type: string
+          description: "Common brazilian identity."
+          example: "123.456.789-01"
+          uniqueItems: true
+          maxLength: 14
+          pattern: '\d{3}\.\d{3}\.\d{3}-\d{2}'
+        email:
+          type: string
+          description: "Common email address."
+          example: "tarasankar@jmail.com"
+          uniqueItems: true
+          format: cnpj
+        birthDate:
+          type: string
+          description: "Birth date."
+          format: date
+          example: "1560-01-02"
+          pattern: '\d{4}-\d{2}-\d{2}'
+        gender:
+          $ref: '#/components/schemas/Gender'
+        password:
+          type: string
+          writeOnly: true
+      required:
+        - cpf
+        - email
+        - birthDate
+        - gender
+        - password
+
+    EmployeeUpdate:
+      allOf:
+        - $ref: '#/components/schemas/EmployeeProperties'
+
+    Employee:
+      allOf:
+        - $ref: '#/components/schemas/EmployeeCreation'
+        - type: object
+          properties:
+            employee_id:
+              type: number
+          required:
+            - employee_id
+
+    DepartmentCreation:
+      type: object
+      properties:
+        description:
+          type: string
+      required:
+        - description
+
+    Department:
+      allOf:
+        - $ref: '#/components/schemas/DepartmentCreation'
+        - type: object
+          properties:
+            department_id:
+              type: number
+          required:
+            - department_id
+
+    Profile:
+      type: object
+      properties:
+        role:
+          $ref: '#/components/schemas/Role'
+      required:
+        - role
+
+    Role:
+      type: string
+      enum:
+        - MANAGER
+        - ADMIN
+        - SUPERVISOR
+        - USER
+
+    Gender:
+      type: string
+      enum:
+        - MAN
+        - WOMAN
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+
+    DtoFormError:
+      type: object
+      properties:
+        field:
+          type: string
+        error:
+          type: string
+  responses:
+    400:
+      description: "Something went wrong with your request."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    403:
+      description: "The user doesn't have permissions to read."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: [ ]
