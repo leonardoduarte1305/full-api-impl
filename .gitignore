@@ -34,3 +34,5 @@ build/
 
 **/gen/**
 *.jar
+full-api-impl.iml
+.flattened-pom.xml
