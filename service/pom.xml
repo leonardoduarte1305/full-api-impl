@@ -11,10 +11,21 @@
 	</parent>
 
 	<artifactId>service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${service.version}</version>
 	<packaging>jar</packaging>
 
+	<properties>
+		<service.version>0.0.1-SNAPSHOT</service.version>
+		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
+	</properties>
+
 	<dependencies>
+		<dependency>
+			<groupId>dev.leoduarte</groupId>
+			<artifactId>api-spec</artifactId>
+			<version>${api-spec.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

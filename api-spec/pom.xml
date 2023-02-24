@@ -11,10 +11,11 @@
 	</parent>
 
 	<artifactId>api-spec</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${api-spec.version}</version>
 	<packaging>jar</packaging>
 
 	<properties>
+		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
 		<client-base-package>dev.leoduarte.client</client-base-package>
 		<server-base-package>dev.leoduarte.server</server-base-package>
 		<api-resources>${project.basedir}/src/main/resources</api-resources>
