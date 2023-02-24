@@ -87,7 +87,7 @@
 
 		<!-- Plugins Versions -->
 		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>
-
+		<maven-enforcer-plugin.version>3.1.0</maven-enforcer-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -148,6 +148,11 @@
 				<artifactId>jsr305</artifactId>
 				<version>${jsr305.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -157,6 +162,36 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${org.springframework.boot.version}</version>
+				<configuration>
+					<mainClass>${basedir}/service/src/main/java/dev/leoduarte/fullapiimpl/FullApiImplApplication.java
+					</mainClass>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>Enforce Plugin in Action</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<banDuplicatePomDependencyVersions/>
+								<requireMavenVersion>
+									<version>[3.8.5,)</version>
+									<message>Invalid Maven version. It should, at least, be 3.8.5</message>
+								</requireMavenVersion>
+								<requireJavaVersion>
+									<version>[17,)</version>
+									<message>Invalid Java version. It should, at least, be 17</message>
+								</requireJavaVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
