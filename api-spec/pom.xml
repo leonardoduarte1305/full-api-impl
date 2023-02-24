@@ -11,10 +11,11 @@
 	</parent>
 
 	<artifactId>api-spec</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${api-spec.version}</version>
 	<packaging>jar</packaging>
 
 	<properties>
+		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
 		<client-base-package>dev.leoduarte.client</client-base-package>
 		<server-base-package>dev.leoduarte.server</server-base-package>
 		<api-resources>${project.basedir}/src/main/resources</api-resources>
@@ -27,12 +28,18 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
@@ -55,7 +62,6 @@
 
 	<build>
 		<plugins>
-			<!-- https://openapi-generator.tech/docs/generators/spring/ -->
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
@@ -74,10 +80,9 @@
 							<generateModelTests>false</generateModelTests>
 							<output>${project.build.directory}/generated-sources/openapi/</output>
 							<configOptions>
-								<useSpringBoot3>true</useSpringBoot3>
 								<library>resttemplate</library>
 								<dateLibrary>java8</dateLibrary>
-								<useJakartaEe>true</useJakartaEe>
+								<java8>true</java8>
 								<interfaceOnly>true</interfaceOnly>
 								<skipDefaultInterface>true</skipDefaultInterface>
 								<apiPackage>${client-base-package}</apiPackage>
@@ -88,7 +93,7 @@
 								<!--Set Springboot version used in generated code (use recent log4j version)-->
 								<parentGroupId>org.springframework.boot</parentGroupId>
 								<parentArtifactId>spring-boot-starter-parent</parentArtifactId>
-								<parentVersion>${spring-boot-starter-parent.version}</parentVersion>
+								<parentVersion>${org.springframework.boot.version}</parentVersion>
 							</configOptions>
 							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
 						</configuration>
@@ -106,11 +111,6 @@
 							<generatorName>spring</generatorName>
 							<output>${project.build.directory}/generated-sources/openapi/</output>
 							<configOptions>
-								<useSpringBoot3>true</useSpringBoot3>
-								<useJakartaEe>true</useJakartaEe>
-								<library>spring-boot</library>
-								<dateLibrary>java8</dateLibrary>
-								<skipDefaultInterface>true</skipDefaultInterface>
 								<interfaceOnly>true</interfaceOnly>
 								<dateLibrary>java17</dateLibrary>
 								<skipDefaultInterface>true</skipDefaultInterface>
@@ -122,7 +122,7 @@
 								<!--Set Springboot version used in generated code (use recent log4j version)-->
 								<parentGroupId>org.springframework.boot</parentGroupId>
 								<parentArtifactId>spring-boot-starter-parent</parentArtifactId>
-								<parentVersion>${spring-boot-starter-parent.version}</parentVersion>
+								<parentVersion>${org.springframework.boot.version}</parentVersion>
 							</configOptions>
 							<additionalProperties>removeEnumValuePrefix=false</additionalProperties>
 						</configuration>
