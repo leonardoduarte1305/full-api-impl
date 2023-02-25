@@ -13,3 +13,7 @@ management:
       enabled: true
     metrics:
       enabled: true
+  info:
+    git:
+      mode: full
+      enabled: true
