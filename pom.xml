@@ -81,6 +81,7 @@
 		<springfox-swagger2.version>3.0.0</springfox-swagger2.version>
 		<swagger-annotations.version>2.2.8</swagger-annotations.version>
 		<jsr305.version>3.0.2</jsr305.version>
+		<micrometer-registry-prometheus.version>1.11.0-M1</micrometer-registry-prometheus.version>
 
 		<!-- Plugins Versions -->
 		<openapi-generator-maven-plugin.version>6.4.0</openapi-generator-maven-plugin.version>

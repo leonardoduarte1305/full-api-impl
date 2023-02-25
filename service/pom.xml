@@ -16,6 +16,7 @@
 
 	<properties>
 		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
+		<property-to-show>Falamos em portugues no Brasil</property-to-show>
 	</properties>
 
 	<dependencies>
@@ -43,8 +44,18 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>jakarta.annotation</groupId>
 			<artifactId>jakarta.annotation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>${micrometer-registry-prometheus.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -58,6 +69,18 @@
 					<mainClass>src/main/java/dev/leoduarte/fullapiimpl/FullApiImplApplication.java</mainClass>
 				</configuration>
 				<executions>
+					<execution>
+						<id>Build Info Goal</id>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+						<configuration>
+							<additionalProperties>
+								<api-spec.version>${api-spec.version}</api-spec.version>
+								<custom-property>${property-to-show}</custom-property>
+							</additionalProperties>
+						</configuration>
+					</execution>
 					<execution>
 						<id>Running Child Module</id>
 						<goals>
