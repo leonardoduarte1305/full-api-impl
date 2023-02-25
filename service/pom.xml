@@ -11,21 +11,22 @@
 	</parent>
 
 	<artifactId>service</artifactId>
-	<version>${service.version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>
-		<service.version>0.0.1-SNAPSHOT</service.version>
 		<api-spec.version>0.0.1-SNAPSHOT</api-spec.version>
 	</properties>
 
 	<dependencies>
+		<!-- Our Own Dependencies-->
 		<dependency>
 			<groupId>dev.leoduarte</groupId>
 			<artifactId>api-spec</artifactId>
 			<version>${api-spec.version}</version>
 		</dependency>
 
+		<!-- Springboot Managed Dependencies-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -42,8 +43,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -53,8 +54,29 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<skip>false</skip>
 					<mainClass>src/main/java/dev/leoduarte/fullapiimpl/FullApiImplApplication.java</mainClass>
 				</configuration>
+				<executions>
+					<execution>
+						<id>Running Child Module</id>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>Pre Integration tests</id>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>Post Integration Tests</id>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
