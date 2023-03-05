@@ -103,4 +103,43 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>docker-build-push</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>spring-image</id>
+								<goals>
+									<goal>build-image</goal>
+								</goals>
+								<configuration>
+									<layers>
+										<enabled>true</enabled>
+									</layers>
+									<image>
+										<name>${docker.final.name}</name>
+										<publish>true</publish>
+									</image>
+									<docker>
+										<publishRegistry>
+											<username>${dockerhub.username}</username>
+											<password>${dockerhub.password}</password>
+											<url>${dockerhub.registry}</url>
+											<email>${dockerhub.email}</email>
+										</publishRegistry>
+									</docker>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
