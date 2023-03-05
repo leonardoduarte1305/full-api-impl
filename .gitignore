@@ -32,7 +32,22 @@ build/
 ### VS Code ###
 .vscode/
 
-**/gen/**
+/gen/**
 *.jar
 full-api-impl.iml
 .flattened-pom.xml
+
+
+.env
+*.tgz
+
+/.idea
+/.vscode
+
+**/bin/**
+**/target/**
+**/.project
+**/.settings
+**/.classpath
+**/.factorypath
+**/.attach_pid*
