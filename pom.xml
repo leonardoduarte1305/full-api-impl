@@ -73,9 +73,13 @@
 		<project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
 		<project.reporting.source>${encoding}</project.reporting.source>
 		<maven.build.indentSize>4</maven.build.indentSize>
+		<maven.deploy.only>false</maven.deploy.only>
 
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+
+		<!-- Api-Spec Shoul be the same version of the api-spec module -->
+		<api-spec.version>${project.version}</api-spec.version>
 
 		<!-- Dependency Management Versions -->
 		<spring-boot-starter-parent.version>${project.parent.version}</spring-boot-starter-parent.version>
@@ -96,7 +100,7 @@
 		<dockerhub.email>${dockerhub.username}@gmail.com</dockerhub.email>
 		<docker.tag>${project.version}</docker.tag>
 		<docker.final.name>
-			${dockerhub.registry}/${dockerhub.username}/${project.artifactId}:${docker.tag}
+			${dockerhub.username}/${project.artifactId}:${docker.tag}
 		</docker.final.name>
 	</properties>
 
@@ -132,9 +136,14 @@
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>build-info</goal>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
