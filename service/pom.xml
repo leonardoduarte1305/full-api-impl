@@ -129,6 +129,7 @@
 									</image>
 									<docker>
 										<publishRegistry>
+											<!-- properties declared in a profile inside the settings.xml -->
 											<username>${dockerhub.username}</username>
 											<password>${dockerhub.password}</password>
 											<url>${dockerhub.registry}</url>
